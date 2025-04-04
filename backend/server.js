@@ -24,17 +24,42 @@ app.get("/api/hello", async (req, res) => {
   }
 });
 
-// Route to send data to MCP Server
-app.post("/mcp/send", async (req, res) => {
+app.post("/test-mcp", async (req, res) => {
+  const { installationCode } = req.body;
+
+  if (!installationCode) {
+    return res.status(400).json({
+      success: false,
+      message: "Please provide the installation code.",
+    });
+  }
+
+  // Extract MCP server name from installation code
+  const match = installationCode.match(/install\s+(@[\w-]+\/[\w-]+)/);
+  if (!match) {
+    return res.status(400).json({
+      success: false,
+      message: "The installation code format is not valid.",
+    });
+  }
+
+  const mcpServer = match[1]; // Extracted MCP server name
+  const testUrl = `https://smithery.ai/server/${mcpServer}`;
+
   try {
-    const response = await axios.post(
-      `${MCP_SERVER_URL}/your-endpoint`,
-      req.body
-    );
-    res.json(response.data);
+    // Send a test request to the MCP server
+    const response = await axios.get(testUrl);
+    res.json({
+      success: true,
+      message: "The MCP server is reachable!",
+      data: response.data,
+    });
   } catch (error) {
-    console.error("Error sending data to MCP server:", error.message);
-    res.status(500).json({ error: "Failed to send data" });
+    res.status(500).json({
+      success: false,
+      message: "Failed to connect to the MCP server.",
+      error: error.message,
+    });
   }
 });
 

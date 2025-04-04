@@ -1,79 +1,25 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { Menu, Settings, Server, Package, User } from "lucide-react";
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet"; // ShadCN Drawer Menu
-import { Button } from "./ui/button";
+import { Info } from "lucide-react";
 
 const Navbar = () => {
   return (
-    <nav className="bg-gray-800 text-white">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <div className="flex items-center">
-            <Server className="w-8 h-8 text-emerald-400" />
-            <span className="ml-2 text-xl font-bold">MCP Manager</span>
-          </div>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <NavLink to="/marketplace" icon={<Package />} text="Marketplace" />
-            <NavLink
-              to="/configuration"
-              icon={<Settings />}
-              text="Configuration"
-            />
-            <NavLink to="/account" icon={<User />} text="Account" />
-          </div>
-
-          {/* Mobile Navigation - ShadCN Drawer */}
-          <div className="md:hidden">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu className="w-10 h-10" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="left" className="bg-gray-900 text-white">
-                <div className="flex flex-col space-y-4 p-4">
-                  <NavLink
-                    to="/marketplace"
-                    icon={<Package />}
-                    text="Marketplace"
-                  />
-                  <NavLink
-                    to="/configuration"
-                    icon={<Settings />}
-                    text="Configuration"
-                  />
-                  <NavLink to="/account" icon={<User />} text="Account" />
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
+    <nav className="bg-black/50 backdrop-blur-sm border-b border-blue-500/20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
+            MCP Server Tester
+          </h1>
+          <a
+            target="_blank"
+            href="https://github.com/Nishant0121/MCPServer"
+            className="text-blue-400 hover:text-blue-300 transition-colors"
+            title="Documentation"
+          >
+            <Info size={24} />
+          </a>
         </div>
       </div>
     </nav>
   );
 };
-
-// Reusable Navigation Link Component
-const NavLink = ({
-  to,
-  icon,
-  text,
-}: {
-  to: string;
-  icon: React.ReactNode;
-  text: string;
-}) => (
-  <Link
-    to={to}
-    className="flex items-center space-x-2 hover:text-emerald-400 transition-colors"
-  >
-    {icon}
-    <span>{text}</span>
-  </Link>
-);
 
 export default Navbar;
